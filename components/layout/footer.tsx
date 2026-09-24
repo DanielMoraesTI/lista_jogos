@@ -1,8 +1,9 @@
 import { Heart, Info } from "lucide-react";
 import Link from "next/link";
 
-import { GitHubIcon } from "@/components/auth/brand-icons";
+import { GitHubIcon, LinkedInIcon } from "@/components/auth/brand-icons";
 import { randomQuote } from "@/lib/quotes";
+import { rawgEnabled } from "@/lib/rawg";
 import { SITE } from "@/lib/site";
 
 import { Achievement } from "./achievement";
@@ -53,6 +54,16 @@ export function Footer() {
               >
                 <GitHubIcon className="size-4" /> GitHub
               </a>
+              {SITE.linkedinUrl && (
+                <a
+                  href={SITE.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 hover:text-primary"
+                >
+                  <LinkedInIcon className="size-4" /> LinkedIn
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -61,6 +72,19 @@ export function Footer() {
           <div className="container-page flex flex-col items-center justify-between gap-2 py-4 text-xs text-muted-foreground sm:flex-row">
             <p>
               © {year} {SITE.name} · Feito com <Heart className="inline size-3 fill-red-500 text-red-500" aria-label="amor" /> e muito café
+              {rawgEnabled() && (
+                <>
+                  {" · "}Capas:{" "}
+                  <a
+                    href="https://rawg.io"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline-offset-2 hover:text-primary hover:underline"
+                  >
+                    RAWG
+                  </a>
+                </>
+              )}
             </p>
             <p className="font-pixel text-[8px] tracking-widest uppercase">
               Insert coin to continue ▸ Credits: ∞

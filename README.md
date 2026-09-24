@@ -88,6 +88,7 @@ O seed usa `SEED_EMAIL` e `SEED_PASSWORD` do `.env.local`. É idempotente: se ro
 | `npm run db:migrate` | aplica as migrations pendentes |
 | `npm run db:studio` | abre o Drizzle Studio para inspecionar dados |
 | `npm run db:seed` | popula dados de demonstração |
+| `npm run db:covers` | busca na RAWG as capas dos jogos sem capa (`-- --all` refaz todas) |
 
 ## Configurando o Neon
 

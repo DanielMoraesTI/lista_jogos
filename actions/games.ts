@@ -48,7 +48,7 @@ export async function createGameAction(input: GameInput): Promise<ActionResult> 
   }
 
   const row = toRow(parsed.data);
-  const coverUrl = await findCoverUrl(row.title);
+  const coverUrl = await findCoverUrl(row.title, row);
 
   try {
     await db.insert(games).values({ ...row, coverUrl, userId });
@@ -74,17 +74,18 @@ export async function updateGameAction(id: string, input: GameInput): Promise<Ac
 
   const ownsGame = and(eq(games.id, parsedId.data), eq(games.userId, userId));
   const [current] = await db
-    .select({ title: games.title, coverUrl: games.coverUrl })
+    .select({ title: games.title, platform: games.platform, coverUrl: games.coverUrl })
     .from(games)
     .where(ownsGame)
     .limit(1);
   if (!current) return { ok: false, error: "Jogo não encontrado." };
 
   const row = toRow(parsed.data);
-  // Rebusca a capa apenas se o nome mudou ou se ainda não havia capa.
-  const titleChanged = current.title.trim().toLowerCase() !== row.title.toLowerCase();
+  // Rebusca a capa só se nome/plataforma mudaram ou se ainda não havia capa.
+  const identityChanged =
+    current.title.trim().toLowerCase() !== row.title.toLowerCase() || current.platform !== row.platform;
   const coverUrl =
-    titleChanged || !current.coverUrl ? await findCoverUrl(row.title) : current.coverUrl;
+    identityChanged || !current.coverUrl ? await findCoverUrl(row.title, row) : current.coverUrl;
 
   try {
     // `updated_at` é atualizado automaticamente ($onUpdate no schema).
