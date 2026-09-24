@@ -9,7 +9,7 @@ export const GAMER_QUOTES = [
   { text: "A man chooses, a slave obeys.", source: "BioShock" },
   { text: "Stay awhile and listen.", source: "Diablo" },
   { text: "You died. (De novo.)", source: "Dark Souls" },
-  { text: "Praise the sun! \[T]/", source: "Dark Souls" },
+  { text: "Praise the sun! ☀️", source: "Dark Souls" },
   { text: "Nothing is true, everything is permitted.", source: "Assassin's Creed" },
   { text: "Rise and shine, Mr. Freeman.", source: "Half-Life 2" },
   { text: "Snake? Snake?! SNAAAAAKE!", source: "Metal Gear Solid" },
