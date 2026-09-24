@@ -22,7 +22,10 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
+*.key
+*.crt
 
 # debug
 npm-debug.log*
@@ -30,8 +33,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files — NUNCA versionar segredos.
+# Apenas o .env.example (sem valores reais) vai para o repositório.
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +45,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editores / SO
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# exports gerados localmente
+*.xlsx
+*.csv
+!public/**/*.csv
