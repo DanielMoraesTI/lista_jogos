@@ -1,7 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 
 /** Rotas acessíveis sem login. Todo o resto exige sessão. */
-const PUBLIC_PATHS = ["/", "/sobre"];
+const PUBLIC_PATHS = ["/", "/sobre", "/privacidade", "/termos"];
 const AUTH_PATHS = ["/login", "/cadastro"];
 
 /**

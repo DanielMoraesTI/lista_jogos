@@ -1,4 +1,4 @@
-import { Heart, Info } from "lucide-react";
+import { FileText, Info, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 import { GitHubIcon, LinkedInIcon } from "@/components/auth/brand-icons";
@@ -45,6 +45,12 @@ export function Footer() {
               <p className="font-pixel text-[9px] tracking-widest text-muted-foreground uppercase">Projeto</p>
               <Link href="/sobre" className="inline-flex items-center gap-1.5 hover:text-primary">
                 <Info className="size-4" /> Sobre
+              </Link>
+              <Link href="/privacidade" className="inline-flex items-center gap-1.5 hover:text-primary">
+                <ShieldCheck className="size-4" /> Privacidade
+              </Link>
+              <Link href="/termos" className="inline-flex items-center gap-1.5 hover:text-primary">
+                <FileText className="size-4" /> Termos
               </Link>
               <a
                 href={SITE.githubUrl}

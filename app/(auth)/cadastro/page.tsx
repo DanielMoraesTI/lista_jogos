@@ -19,6 +19,17 @@ export default function RegisterPage() {
       <CardContent className="flex flex-col gap-6">
         <RegisterForm />
         <OAuthButtons {...oauthProviders} />
+        <p className="text-center text-xs text-muted-foreground">
+          Ao criar uma conta, você concorda com os{" "}
+          <Link href="/termos" className="text-primary underline-offset-4 hover:underline">
+            Termos de Uso
+          </Link>{" "}
+          e a{" "}
+          <Link href="/privacidade" className="text-primary underline-offset-4 hover:underline">
+            Política de Privacidade
+          </Link>
+          .
+        </p>
       </CardContent>
       <CardFooter className="justify-center text-sm text-muted-foreground">
         Já tem conta?&nbsp;
