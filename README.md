@@ -141,7 +141,7 @@ Os recursos opcionais se desligam sozinhos quando a variável está vazia: os bo
 - Validação com **Zod** no cliente e no servidor, mais **CHECK constraints** no banco (nota 0–10, horas ≥ 0, concluído exige data).
 - `callbackUrl` sanitizado contra *open redirect*.
 - CSV exportado protegido contra **injeção de fórmulas** (células iniciadas por `= + - @`).
-- Upload de avatar validado por tamanho e pela **assinatura binária** do arquivo, não só pelo Content-Type.
+- Upload de avatar validado por tamanho e pela **assinatura binária** do arquivo, e **reprocessado no servidor** (sharp): remove todos os metadados, incluindo **GPS**, padroniza em 512×512 WebP, rejeita arquivos disfarçados e "bombas de descompressão". O nome do arquivo é aleatório e não expõe o id do usuário.
 - Cabeçalhos de segurança: `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, HSTS; `X-Powered-By` removido.
 - `.env*` ignorado pelo git; só o `.env.example`, sem valores reais, é versionado.
 

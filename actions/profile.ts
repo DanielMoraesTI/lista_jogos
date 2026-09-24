@@ -1,11 +1,14 @@
 "use server";
 
 import { del, put } from "@vercel/blob";
+import { randomUUID } from "node:crypto";
+
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/db";
 import { users } from "@/db/schema";
+import { processAvatar } from "@/lib/avatar-image";
 import {
   AVATAR_MAX_BYTES,
   AVATAR_TYPES,
@@ -89,10 +92,16 @@ export async function uploadAvatarAction(formData: FormData): Promise<Result> {
     return { ok: false, error: "Formato não suportado. Use PNG, JPG, WEBP ou GIF." };
   }
 
-  const extension = type.split("/")[1];
-  const blob = await put(`avatars/${user.id}.${extension}`, Buffer.from(bytes), {
+  // Remove metadados (ex.: GPS), padroniza em 512×512 WebP e valida que é imagem real.
+  const processed = await processAvatar(bytes);
+  if (!processed) {
+    return { ok: false, error: "Não foi possível ler a imagem. Tente outro arquivo." };
+  }
+
+  // Nome aleatório: não expõe o id do usuário e não pode ser adivinhado.
+  const blob = await put(`avatars/${randomUUID()}.webp`, processed, {
     access: "public",
-    contentType: type,
+    contentType: "image/webp",
     addRandomSuffix: true,
   });
 

@@ -19,7 +19,14 @@ export function UserAvatar({
 
   return (
     <Avatar className={cn("ring-2 ring-primary/40", className)}>
-      {src && <AvatarImage src={src} alt={name} className="pixelated object-cover" />}
+      {src && (
+        <AvatarImage
+          src={src}
+          alt={name}
+          // Nitidez "pixel" só nos sprites prontos; fotos enviadas ficam suaves.
+          className={cn("object-cover", src.startsWith("/avatars/") && "pixelated")}
+        />
+      )}
       <AvatarFallback className="bg-linear-to-br from-glow to-glow-2 font-heading font-bold text-primary-foreground">
         {initials || "P1"}
       </AvatarFallback>
