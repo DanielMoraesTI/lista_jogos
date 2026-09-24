@@ -20,9 +20,9 @@ export function HighlightCard({
   empty: string;
 }) {
   return (
-    <section className="glow relative overflow-hidden rounded-2xl border border-primary/30 bg-card">
+    <section className="glow relative h-full overflow-hidden rounded-2xl border border-primary/30 bg-card">
       {game ? (
-        <div className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+        <div className="grid h-full sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
           <GameCover
             title={game.title}
             platform={game.platform}

@@ -71,7 +71,7 @@ export function Footer() {
         <div className="border-t border-border/60">
           <div className="container-page flex flex-col items-center justify-between gap-2 py-4 text-xs text-muted-foreground sm:flex-row">
             <p>
-              © {year} {SITE.name} · Feito com <Heart className="inline size-3 fill-red-500 text-red-500" aria-label="amor" /> e muito café
+              © {year} {SITE.name} · Feito com muito café
               {rawgEnabled() && (
                 <>
                   {" · "}Capas:{" "}
