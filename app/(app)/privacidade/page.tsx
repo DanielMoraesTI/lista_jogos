@@ -90,9 +90,9 @@ export default function PrivacyPage() {
         <p>
           Você pode, a qualquer momento: acessar e corrigir seus dados na página de{" "}
           <Link href="/perfil">Perfil</Link>; exportar toda a sua coleção (CSV, Excel ou PDF) em{" "}
-          <Link href="/jogos">Meus Jogos</Link>; e solicitar a <strong>exclusão completa da sua
-          conta</strong> e de todos os dados associados por <ContactLink />. Pedidos são atendidos
-          em até 15 dias.
+          <Link href="/jogos">Meus Jogos</Link>; e <strong>excluir sua conta</strong> e todos os dados associados, na hora,
+          pelo botão “Excluir minha conta” no <Link href="/perfil">Perfil</Link>. A exclusão também
+          remove o acesso concedido ao Google. Se preferir, solicite por <ContactLink />.
         </p>
       </section>
 

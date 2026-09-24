@@ -1,13 +1,14 @@
 "use server";
 
 import { del, put } from "@vercel/blob";
+import bcrypt from "bcryptjs";
 import { randomUUID } from "node:crypto";
 
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/db";
-import { users } from "@/db/schema";
+import { accounts, users } from "@/db/schema";
 import { processAvatar } from "@/lib/avatar-image";
 import {
   AVATAR_MAX_BYTES,
@@ -15,8 +16,14 @@ import {
   PRESET_AVATARS,
   presetAvatarUrl,
 } from "@/lib/avatars";
+import { signOut } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/session";
-import { profileSchema, type ProfileInput } from "@/lib/validations";
+import {
+  deleteAccountSchema,
+  profileSchema,
+  type DeleteAccountInput,
+  type ProfileInput,
+} from "@/lib/validations";
 
 type Result = { ok: true; message: string } | { ok: false; error: string };
 
@@ -109,4 +116,64 @@ export async function uploadAvatarAction(formData: FormData): Promise<Result> {
   await cleanupOldAvatar(user.image);
   revalidatePath("/", "layout");
   return { ok: true, message: "Avatar atualizado!" };
+}
+
+/** Pede ao Google para remover o acesso do app à conta (best effort). */
+async function revokeGoogleAccess(tokens: (string | null)[]) {
+  await Promise.all(
+    tokens
+      .filter((t): t is string => Boolean(t))
+      .map((token) =>
+        fetch("https://oauth2.googleapis.com/revoke", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ token }),
+          signal: AbortSignal.timeout(4000),
+        }).catch(() => undefined),
+      ),
+  );
+}
+
+/**
+ * Exclui a conta e TODOS os dados do usuário (LGPD):
+ * jogos e vínculos OAuth (cascata no banco), avatar no Blob e acesso concedido ao Google.
+ * Exige digitar EXCLUIR e, para contas com senha, reconfirmar a senha atual.
+ */
+export async function deleteAccountAction(input: DeleteAccountInput): Promise<Result> {
+  const user = await getCurrentUser();
+  if (!user) return UNAUTHORIZED;
+
+  const parsed = deleteAccountSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Confirmação inválida." };
+  }
+
+  const [record] = await db
+    .select({ passwordHash: users.passwordHash })
+    .from(users)
+    .where(eq(users.id, user.id))
+    .limit(1);
+  if (!record) return UNAUTHORIZED;
+
+  if (record.passwordHash) {
+    const valid = await bcrypt.compare(parsed.data.password ?? "", record.passwordHash);
+    if (!valid) return { ok: false, error: "Senha incorreta." };
+  }
+
+  const linked = await db
+    .select({ provider: accounts.provider, access: accounts.access_token, refresh: accounts.refresh_token })
+    .from(accounts)
+    .where(eq(accounts.userId, user.id));
+
+  // O ON DELETE CASCADE remove jogos e contas OAuth vinculadas junto com o usuário.
+  await db.delete(users).where(eq(users.id, user.id));
+
+  await Promise.all([
+    cleanupOldAvatar(user.image),
+    revokeGoogleAccess(linked.filter((a) => a.provider === "google").flatMap((a) => [a.refresh, a.access])),
+  ]);
+
+  // Encerra a sessão e volta para a home com aviso. Lança NEXT_REDIRECT (não retorna).
+  await signOut({ redirectTo: "/?conta=excluida" });
+  return { ok: true, message: "Conta excluída." };
 }

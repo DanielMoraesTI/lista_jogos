@@ -61,6 +61,14 @@ export const profileSchema = z.object({
 });
 export type ProfileInput = z.infer<typeof profileSchema>;
 
+export const DELETE_CONFIRMATION = "EXCLUIR";
+
+export const deleteAccountSchema = z.object({
+  confirmation: z.literal(DELETE_CONFIRMATION, { error: `Digite ${DELETE_CONFIRMATION} para confirmar` }),
+  password: z.string().max(128).optional(),
+});
+export type DeleteAccountInput = z.infer<typeof deleteAccountSchema>;
+
 // ---------------------------------------------------------------------------
 // Jogos
 // ---------------------------------------------------------------------------

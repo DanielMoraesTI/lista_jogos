@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { PlatformBadge } from "@/components/games/badges";
 import { PageHeader } from "@/components/page-header";
 import { AvatarPicker } from "@/components/profile/avatar-picker";
+import { DeleteAccount } from "@/components/profile/delete-account";
 import { ProfileForm } from "@/components/profile/profile-form";
 import { UserAvatar } from "@/components/user-avatar";
 import { formatHours, formatNumber } from "@/lib/format";
@@ -95,6 +96,7 @@ export default async function ProfilePage() {
             <p className="mb-4 text-sm text-muted-foreground">Escolha um sprite ou envie sua própria imagem.</p>
             <AvatarPicker current={user.image} uploadEnabled={Boolean(process.env.BLOB_READ_WRITE_TOKEN)} />
           </section>
+          <DeleteAccount hasPassword={user.hasPassword} gameCount={stats.total} />
         </div>
       </div>
     </>
