@@ -40,6 +40,8 @@ const RAWG_PLATFORM_SLUGS: Record<Platform, string[]> = {
   MEGA_DRIVE: ["genesis"],
   SATURN: ["sega-saturn"],
   DREAMCAST: ["dreamcast"],
+  IOS: ["ios"],
+  ANDROID: ["android"],
 };
 
 export type CoverHints = {

@@ -38,7 +38,8 @@ export function UserMenu({
         aria-label="Menu do usuário"
       >
         <UserAvatar src={image} name={displayName} className="size-8" />
-        <span className="hidden max-w-32 truncate text-sm font-medium sm:inline">{displayName}</span>
+        {/* Entre 1024 e 1279px o menu principal ocupa o espaço: só o avatar. */}
+        <span className="hidden max-w-32 truncate text-sm font-medium sm:inline lg:hidden xl:inline">{displayName}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="flex flex-col">

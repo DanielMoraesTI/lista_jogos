@@ -33,10 +33,12 @@ export const PLATFORMS = [
   "MEGA_DRIVE",
   "SATURN",
   "DREAMCAST",
+  "IOS",
+  "ANDROID",
 ] as const;
 export type Platform = (typeof PLATFORMS)[number];
 
-export const FAMILIES = ["pc", "xbox", "playstation", "nintendo", "sega"] as const;
+export const FAMILIES = ["pc", "xbox", "playstation", "nintendo", "sega", "mobile"] as const;
 export type Family = (typeof FAMILIES)[number];
 
 export const GAME_STATUSES = ["completed", "playing", "backlog"] as const;
@@ -72,6 +74,8 @@ export const PLATFORM_LABELS: Record<Platform, string> = {
   MEGA_DRIVE: "Mega Drive",
   SATURN: "Sega Saturn",
   DREAMCAST: "Dreamcast",
+  IOS: "iOS",
+  ANDROID: "Android",
 };
 
 /** Rótulo curto para chips e badges em telas pequenas. */
@@ -105,6 +109,8 @@ export const PLATFORM_SHORT_LABELS: Record<Platform, string> = {
   MEGA_DRIVE: "Mega Drive",
   SATURN: "Saturn",
   DREAMCAST: "Dreamcast",
+  IOS: "iOS",
+  ANDROID: "Android",
 };
 
 const PLATFORM_FAMILY: Record<Platform, Family> = {
@@ -137,6 +143,8 @@ const PLATFORM_FAMILY: Record<Platform, Family> = {
   MEGA_DRIVE: "sega",
   SATURN: "sega",
   DREAMCAST: "sega",
+  IOS: "mobile",
+  ANDROID: "mobile",
 };
 
 export function platformFamily(platform: Platform): Family {
@@ -191,6 +199,12 @@ export const FAMILY_META: Record<Family, FamilyMeta> = {
     badgeClass: "bg-cyan-500/15 text-cyan-700 ring-cyan-500/30 dark:text-cyan-300",
     gradient: "from-cyan-500 via-sky-700 to-slate-900",
   },
+  mobile: {
+    label: "Mobile",
+    color: "#d97706",
+    badgeClass: "bg-amber-500/15 text-amber-700 ring-amber-500/30 dark:text-amber-300",
+    gradient: "from-amber-500 via-orange-700 to-slate-900",
+  },
 };
 
 /**
@@ -228,6 +242,8 @@ export const PLATFORM_COLORS: Record<Platform, string> = {
   MEGA_DRIVE: "#0e7490",
   SATURN: "#0891b2",
   DREAMCAST: "#22d3ee",
+  IOS: "#d97706",
+  ANDROID: "#fbbf24",
 };
 
 export function isFamily(value: string): value is Family {

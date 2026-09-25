@@ -14,6 +14,7 @@ const DESCRIPTIONS = {
   playstation: "Do PS1 ao PS5 — a linhagem Sony, portáteis incluídos.",
   nintendo: "Do NES ao Switch 2, com todos os portáteis.",
   sega: "Do Master System ao Dreamcast — a era de ouro da Sega.",
+  mobile: "iOS e Android — a jogatina que cabe no bolso.",
 } as const;
 
 export async function generateMetadata(props: PageProps<"/plataforma/[familia]">): Promise<Metadata> {
@@ -40,9 +41,11 @@ export default async function FamilyPage(props: PageProps<"/plataforma/[familia]
       />
       <PageHeader
         eyebrow={
-          platforms.length > 1
-            ? `${PLATFORM_SHORT_LABELS[platforms[0]!]} → ${PLATFORM_SHORT_LABELS[platforms.at(-1)!]} · ${platforms.length} consoles`
-            : "Master Race"
+          platforms.length === 1
+            ? "Master Race"
+            : platforms.length === 2
+              ? platforms.map((p) => PLATFORM_SHORT_LABELS[p]).join(" · ")
+              : `${PLATFORM_SHORT_LABELS[platforms[0]!]} → ${PLATFORM_SHORT_LABELS[platforms.at(-1)!]} · ${platforms.length} consoles`
         }
         accent={meta.color}
         title={meta.label}
