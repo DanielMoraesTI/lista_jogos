@@ -122,7 +122,7 @@ export function Dashboard({ nickname, data }: { nickname: string; data: Dashboar
             >
               <PlatformDonut data={data.byPlatform} />
             </Panel>
-            <Panel title="Jogos por família" description="PC, Xbox, PlayStation e Nintendo" className="lg:col-span-2">
+            <Panel title="Jogos por família" description="PC, Xbox, PlayStation, Nintendo e Sega" className="lg:col-span-2">
               <FamilyBars data={data.byFamily} />
             </Panel>
           </div>

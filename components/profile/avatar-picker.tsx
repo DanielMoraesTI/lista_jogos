@@ -90,7 +90,7 @@ export function AvatarPicker({ current, uploadEnabled }: { current: string | nul
         </div>
       ) : (
         <p className="text-xs text-muted-foreground">
-          Upload de imagem desativado (configure <code>BLOB_READ_WRITE_TOKEN</code> para habilitar).
+          O envio de imagem própria está indisponível no momento. Escolha um dos avatares acima.
         </p>
       )}
     </div>

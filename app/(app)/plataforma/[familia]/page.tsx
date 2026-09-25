@@ -5,14 +5,15 @@ import { AddGameButton } from "@/components/games/add-game-button";
 import { GamesView } from "@/components/games/games-view";
 import { PageHeader } from "@/components/page-header";
 import { parseFilters } from "@/lib/filters";
-import { FAMILY_META, PLATFORM_LABELS, isFamily, platformsOfFamily } from "@/lib/platforms";
+import { FAMILY_META, PLATFORM_SHORT_LABELS, isFamily, platformsOfFamily } from "@/lib/platforms";
 import { requireUser } from "@/lib/session";
 
 const DESCRIPTIONS = {
   pc: "Mouse, teclado e mods infinitos.",
   xbox: "Do Xbox original ao Series X|S.",
-  playstation: "Do PS2 ao PS5 — a linhagem Sony.",
-  nintendo: "Do Nintendo 64 ao Switch 2.",
+  playstation: "Do PS1 ao PS5 — a linhagem Sony, portáteis incluídos.",
+  nintendo: "Do NES ao Switch 2, com todos os portáteis.",
+  sega: "Do Master System ao Dreamcast — a era de ouro da Sega.",
 } as const;
 
 export async function generateMetadata(props: PageProps<"/plataforma/[familia]">): Promise<Metadata> {
@@ -38,7 +39,11 @@ export default async function FamilyPage(props: PageProps<"/plataforma/[familia]
         style={{ background: `radial-gradient(40rem 12rem at 20% 0%, ${meta.color}, transparent 70%)` }}
       />
       <PageHeader
-        eyebrow={platforms.length > 1 ? platforms.map((p) => PLATFORM_LABELS[p]).join(" · ") : "Master Race"}
+        eyebrow={
+          platforms.length > 1
+            ? `${PLATFORM_SHORT_LABELS[platforms[0]!]} → ${PLATFORM_SHORT_LABELS[platforms.at(-1)!]} · ${platforms.length} consoles`
+            : "Master Race"
+        }
         accent={meta.color}
         title={meta.label}
         description={DESCRIPTIONS[familia]}

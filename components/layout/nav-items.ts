@@ -8,6 +8,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/plataforma/xbox", label: "Xbox", family: "xbox" },
   { href: "/plataforma/playstation", label: "PlayStation", family: "playstation" },
   { href: "/plataforma/nintendo", label: "Nintendo", family: "nintendo" },
+  { href: "/plataforma/sega", label: "Sega", family: "sega" },
   { href: "/jogos", label: "Meus Jogos" },
 ];
 

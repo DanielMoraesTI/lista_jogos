@@ -56,7 +56,7 @@ export function DeleteAccount({ hasPassword, gameCount }: { hasPassword: boolean
       <p className="mb-4 text-sm text-muted-foreground">
         Excluir sua conta apaga permanentemente seu perfil, {gameCount}{" "}
         {gameCount === 1 ? "jogo cadastrado" : "jogos cadastrados"}, seu avatar enviado e o vínculo
-        com Google/GitHub. Considere exportar sua coleção antes.
+        com Google. Considere exportar sua coleção antes.
       </p>
 
       <AlertDialog open={open} onOpenChange={reset}>

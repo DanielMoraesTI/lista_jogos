@@ -28,7 +28,7 @@ Registre, acompanhe e analise sua jornada gamer: jogos **concluídos**, **jogand
 - **Perfil**: avatar em pixel-art (8 opções) ou upload próprio (Vercel Blob), nickname, nome, total de jogos, horas, zerados, plataforma favorita e "nível".
 - **CRUD de jogos** em modal: status em controle segmentado, nota com input e slider, data de conclusão habilitada só para "Concluído" (sugere a data de hoje) e comentário de até 140 caracteres com contador.
 - **Listagem** em cards ou tabela, com busca, filtros por status/plataforma, 6 ordenações, paginação e "editado há X".
-- **Páginas de plataforma** (`/plataforma/pc|xbox|playstation|nintendo`) com chips por console.
+- **Páginas de plataforma** (`/plataforma/pc|xbox|playstation|nintendo|sega`) com chips por console.
 - **Dashboard**: estatísticas, rosca por console, barras por família, "mais jogado", "mais bem avaliado" e os 10 últimos cadastrados.
 - **Exportação** de todos os jogos, só da família ou só do filtro atual, em CSV, XLSX ou PDF, gerada no servidor.
 - **Temas**: Dark Gamer (padrão), Claro, Neon Roxo, Neon Verde e Neon Azul.
@@ -43,7 +43,7 @@ app/
   (app)/                        páginas com header fixo + footer
     page.tsx                    landing (visitante) ou dashboard (logado)
     jogos/                      Meus Jogos
-    plataforma/[familia]/       PC, Xbox, PlayStation, Nintendo
+    plataforma/[familia]/       PC, Xbox, PlayStation, Nintendo, Sega
     perfil/, sobre/
   api/auth/[...nextauth]/       Auth.js
   api/export/                   geração de CSV/XLSX/PDF

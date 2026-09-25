@@ -10,6 +10,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/db";
 import { accounts, users } from "@/db/schema";
 import { processAvatar } from "@/lib/avatar-image";
+import { blobEnabled } from "@/lib/blob";
 import {
   AVATAR_MAX_BYTES,
   AVATAR_TYPES,
@@ -35,8 +36,8 @@ function isBlobUrl(url: string | null): url is string {
 
 /** Remove o avatar antigo do Blob (se for um upload), sem falhar a operação. */
 async function cleanupOldAvatar(previous: string | null) {
-  if (isBlobUrl(previous) && process.env.BLOB_READ_WRITE_TOKEN) {
-    await del(previous).catch(() => undefined);
+  if (isBlobUrl(previous) && blobEnabled()) {
+    await del(previous).catch((error) => console.error("[avatar] falha ao apagar avatar antigo", error));
   }
 }
 
@@ -81,8 +82,9 @@ export async function uploadAvatarAction(formData: FormData): Promise<Result> {
   const user = await getCurrentUser();
   if (!user) return UNAUTHORIZED;
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return { ok: false, error: "Upload de imagens não está configurado neste servidor." };
+  if (!blobEnabled()) {
+    console.error("[avatar] upload tentado sem credenciais do Vercel Blob configuradas");
+    return { ok: false, error: "Envio de imagens indisponível no momento. Use um dos avatares prontos." };
   }
 
   const file = formData.get("avatar");
@@ -106,11 +108,18 @@ export async function uploadAvatarAction(formData: FormData): Promise<Result> {
   }
 
   // Nome aleatório: não expõe o id do usuário e não pode ser adivinhado.
-  const blob = await put(`avatars/${randomUUID()}.webp`, processed, {
-    access: "public",
-    contentType: "image/webp",
-    addRandomSuffix: true,
-  });
+  let blob;
+  try {
+    blob = await put(`avatars/${randomUUID()}.webp`, processed, {
+      access: "public",
+      contentType: "image/webp",
+      addRandomSuffix: true,
+    });
+  } catch (error) {
+    // Detalhes só no log do servidor; o usuário recebe uma mensagem genérica.
+    console.error("[avatar] falha no upload para o Vercel Blob", error);
+    return { ok: false, error: "Não foi possível enviar a imagem agora. Tente novamente em instantes." };
+  }
 
   await db.update(users).set({ image: blob.url }).where(eq(users.id, user.id));
   await cleanupOldAvatar(user.image);

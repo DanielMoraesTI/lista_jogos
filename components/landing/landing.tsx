@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FAMILY_META, FAMILIES } from "@/lib/platforms";
 
 const FEATURES = [
-  { icon: Gamepad2, title: "Tudo em um lugar", text: "PC, Xbox, PlayStation e Nintendo, do N64 ao Switch 2." },
+  { icon: Gamepad2, title: "Tudo em um lugar", text: "PC, Xbox, PlayStation, Nintendo e Sega: do NES ao Switch 2, portáteis incluídos." },
   { icon: Trophy, title: "Notas e horas", text: "Dê notas de 0 a 10, conte horas e registre quando zerou." },
   { icon: BarChart3, title: "Dashboard", text: "Gráficos da sua jornada: plataformas, recordes e últimos jogos." },
   { icon: Layers, title: "Backlog organizado", text: "Separe o que zerou, o que está jogando e o que vem depois." },

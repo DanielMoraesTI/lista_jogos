@@ -7,6 +7,7 @@ import { AvatarPicker } from "@/components/profile/avatar-picker";
 import { DeleteAccount } from "@/components/profile/delete-account";
 import { ProfileForm } from "@/components/profile/profile-form";
 import { UserAvatar } from "@/components/user-avatar";
+import { blobEnabled } from "@/lib/blob";
 import { formatHours, formatNumber } from "@/lib/format";
 import { getProfileStats } from "@/lib/queries";
 import { displayName, requireUser } from "@/lib/session";
@@ -94,7 +95,7 @@ export default async function ProfilePage() {
           <section className="rounded-2xl border bg-card/80 p-5 sm:p-6">
             <h2 className="mb-1 text-lg font-semibold">Avatar</h2>
             <p className="mb-4 text-sm text-muted-foreground">Escolha um sprite ou envie sua própria imagem.</p>
-            <AvatarPicker current={user.image} uploadEnabled={Boolean(process.env.BLOB_READ_WRITE_TOKEN)} />
+            <AvatarPicker current={user.image} uploadEnabled={blobEnabled()} />
           </section>
           <DeleteAccount hasPassword={user.hasPassword} gameCount={stats.total} />
         </div>
